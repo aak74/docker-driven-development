@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  webserver:
+    build: ./containers/apache-php53
+    ports:
+      - 9000:80
+    volumes:
+      - /etc/localtime:/etc/localtime/:ro
+      - ./src:/var/www/html
+      - ./logs/apache-php53:/var/log/apache-php53
+      - ./logs/php:/var/log/php
+    networks: 
+      - skynet
+    restart: always
+networks:
+  skynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.2.0.1/24

@@ -1,0 +1,21 @@
+title: Docker Driven Development
+
+chapters:
+  - readme.md
+  - history/readme.md
+  - examples/readme.md
+
+backend_config:
+  pandoc:
+    # template: !path templates/basic.tex
+    toc: true
+    vars:
+      toc: true
+      toc-depth: 2 
+      title: Docker Driven Development
+      year: 2018
+    params:
+      pdf_engine: xelatex
+      listings: true
+      number_sections: true
+ 
