@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Установка серверного ПО</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/assets/css/16.styles.3a529fc4.css" as="style"><link rel="preload" href="/assets/js/app.1582730d.js" as="script"><link rel="preload" href="/assets/js/15.986164f8.js" as="script"><link rel="prefetch" href="/assets/js/9.7f57c309.js"><link rel="prefetch" href="/assets/js/1.f2443098.js"><link rel="prefetch" href="/assets/js/2.bf47b9af.js"><link rel="prefetch" href="/assets/js/3.f3b67330.js"><link rel="prefetch" href="/assets/js/4.f0b0e0a5.js"><link rel="prefetch" href="/assets/js/5.92d8103e.js"><link rel="prefetch" href="/assets/js/6.c512c0c2.js"><link rel="prefetch" href="/assets/js/7.7d603bfd.js"><link rel="prefetch" href="/assets/js/8.d89bd4f9.js"><link rel="prefetch" href="/assets/js/0.a7d14df4.js"><link rel="prefetch" href="/assets/js/10.e1b93769.js"><link rel="prefetch" href="/assets/js/11.89b11d71.js"><link rel="prefetch" href="/assets/js/12.e69afcf9.js"><link rel="prefetch" href="/assets/js/13.7aceb7a8.js"><link rel="prefetch" href="/assets/js/14.63263023.js">
+    <link rel="stylesheet" href="/assets/css/16.styles.3a529fc4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>Общая информация</span><!----></p><ul class="sidebar-group-items"><li><a href="/" class="sidebar-link">Общая информация</a></li><li><a href="/history/" class="sidebar-link">Эволюция процесса разработки</a></li><li><a href="/weaknesses/" class="sidebar-link">Недостатки стандартного подхода к разработке</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>Примеры использования</span><!----></p><ul class="sidebar-group-items"><li><a href="/examples/ex0/" class="active sidebar-link">Установка серверного ПО</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/examples/ex0/#образ-и-контейнер" class="sidebar-link">Образ и контейнер</a></li><li class="sidebar-sub-header"><a href="/examples/ex0/#распространение-образов" class="sidebar-link">Распространение образов</a></li><li class="sidebar-sub-header"><a href="/examples/ex0/#запуск-контейнера-docker-run" class="sidebar-link">Запуск контейнера (docker run)</a></li><li class="sidebar-sub-header"><a href="/examples/ex0/#dockerfile" class="sidebar-link">Dockerfile</a></li><li class="sidebar-sub-header"><a href="/examples/ex0/#запуск-набора-контейнеров-docker-compose" class="sidebar-link">Запуск набора контейнеров (docker-compose)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/examples/ex0/#пример-docker-compose-yml" class="sidebar-link">Пример docker-compose.yml</a></li><li class="sidebar-sub-header"><a href="/examples/ex0/#запуск-сервиса-внутри-контейнера-docker-compose-run" class="sidebar-link">Запуск сервиса внутри контейнера (docker-compose run)</a></li></ul></li></ul></li><li><a href="/examples/ex1/" class="sidebar-link">Переключение между настройками одного и того же ПО</a></li><li><a href="/examples/ex2/" class="sidebar-link">Переключение между версиями ПО</a></li><li><a href="/examples/ex3/" class="sidebar-link">Переключение между пользователями</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="установка-серверного-по"><a href="#установка-серверного-по" aria-hidden="true" class="header-anchor">#</a> Установка серверного ПО</h1><h2 id="образ-и-контейнер"><a href="#образ-и-контейнер" aria-hidden="true" class="header-anchor">#</a> Образ и контейнер</h2><p><strong>Образ</strong> - это слепок файловой системы.</p><p><strong>Контейнер</strong> - это живой образ.</p><p>Можно сделать и обратный вывод:
+Образ - это мертвый контейнер. Как только в контейнере завершается последний процесс - контейнер умирает.</p><h2 id="распространение-образов"><a href="#распространение-образов" aria-hidden="true" class="header-anchor">#</a> Распространение образов</h2><p>Практически все производители ПО имеют официальные образы, распространяемые через <a href="https://hub.docker.com/" target="_blank" rel="noopener noreferrer">Docker Hub</a>.
+Для установки ПО достаточно загрузить образ из <a href="https://hub.docker.com/" target="_blank" rel="noopener noreferrer">Docker Hub</a>. Или из собственного Docker registry.
+Установка ПО никогда еще не была настолько легкой.
+Образ можно модифицировать и сохранять локально или в Docker registry.</p><h2 id="запуск-контейнера-docker-run"><a href="#запуск-контейнера-docker-run" aria-hidden="true" class="header-anchor">#</a> Запуск контейнера (docker run)</h2><p>Созданный образ можно запустить. Причем типичное время запуска контейнера - 1 секунда.
+Виртуальная машина может запускаться минуту и более.</p><p>Запустить контейнер очень легко:
+<code>docker run -d mongo</code>
+Такого рода команда бесполезна так, как наружу не выставлены порты.
+<code>docker run -d -p 27017:27017 mongo</code>
+Теперь к MongoDB можно обратиться по указанному порту.
+Если вам нужно запустить другой инстанс MongoDB для другого проекта, то необходимо поменять внешний порт.
+<code>docker run -d -p 37017:27017 mongo</code>.
+Если внешние для контейнера порты будут одинаковыми, то возникнет конфликт портов на локальной машине.
+Теперь с базой данных можно работать. Данные сохраняются внутри файловой системы контейнера. Однако, все изменения, произошедшие в файловой системе контейнера, после его остановки исчезают. Контейнеры по своей природе stateless, то есть не сохраняют состояние. У этого есть огромные плюсы, о которых мы поговорим чуть позже.</p><p>Для сохранения данных необходимо использовать внешние для контейнера тома.
+<code>docker run -d -p 27017:27017 --volume=./data/mongo:/db/data mongo</code>
+Кроме того внешние тома можно использовать для чтения. Например внутрь контейнера можно прокинуть такие файлы как <code>/etc/passwd</code> и <code>/etc/group</code>. После этого внутри контейнера у вас окажется тот же набор пользователей и групп, что и на хост машине.</p><h2 id="dockerfile"><a href="#dockerfile" aria-hidden="true" class="header-anchor">#</a> Dockerfile</h2><p>Вместо использования готовых образов можно подготовить свой образ.
+Делается это с помощью файла Dockerfile.</p><pre class="language-text"><code>FROM mongo:3-jessie
+
+COPY ./mongo.conf /usr/local/etc/mongo/mongo.conf
+EXPOSE 27017
+
+CMD [&quot;mongod&quot;]
+</code></pre><p>В этом примере мы заменили стандартный конфиг на свой.</p><h2 id="запуск-набора-контейнеров-docker-compose"><a href="#запуск-набора-контейнеров-docker-compose" aria-hidden="true" class="header-anchor">#</a> Запуск набора контейнеров (docker-compose)</h2><p>Параметров для запуска может быть довольно много и указывать их все может быть весьма утомительно.
+Чтобы избежать этого можно воспользоваться docker-compose. Эта утилита позволяет запускать один или более контейнеров с параметрами указанными в файле docker-compose.yml
+Построение образов и запуск контейнеров: <code>docker-compose up --build -d</code>
+Построение образа может занять некоторое время. Запуск же очень быстрый. Перестройка образа может понадобиться только в случае изменения параметров или файлов, которые копируются внутрь образа.</p><h3 id="пример-docker-compose-yml"><a href="#пример-docker-compose-yml" aria-hidden="true" class="header-anchor">#</a> Пример docker-compose.yml</h3><pre class="language-text"><code>version: '2'
+
+services:
+  mongo:
+    image: mongo:3-jessie
+    container_name: mongodb
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - skynet
+    restart: always
+    entrypoint:
+      mongod
+      
+networks:
+  skynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.1/24
+</code></pre><h3 id="запуск-сервиса-внутри-контейнера-docker-compose-run"><a href="#запуск-сервиса-внутри-контейнера-docker-compose-run" aria-hidden="true" class="header-anchor">#</a> Запуск сервиса внутри контейнера (docker-compose run)</h3><p><code>docker-compose run service-name</code>
+По имени сервиса находит образ, указанный в файле docker-compose.yml и  запускает контейнер, с параметрами из того же файла. Из параметров не применяются только порты, которые выставляются наружу контейнера. Такое поведение необходимо во избегание коллизий с портами. Однако если же вы хотите выставлять наружу те же порты, которые указаны в docker-compose.yml достаточно указать параметр <code>--service-ports</code>.</p></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/weaknesses/" class="prev">
+          Недостатки стандартного подхода к разработке
+        </a></span><span class="next"><a href="/examples/ex1/">
+          Переключение между настройками одного и того же ПО
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/assets/js/15.986164f8.js" defer></script><script src="/assets/js/app.1582730d.js" defer></script>
+  </body>
+</html>

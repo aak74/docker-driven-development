@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Переключение между пользователями</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/assets/css/16.styles.3a529fc4.css" as="style"><link rel="preload" href="/assets/js/app.1582730d.js" as="script"><link rel="preload" href="/assets/js/12.e69afcf9.js" as="script"><link rel="prefetch" href="/assets/js/9.7f57c309.js"><link rel="prefetch" href="/assets/js/1.f2443098.js"><link rel="prefetch" href="/assets/js/2.bf47b9af.js"><link rel="prefetch" href="/assets/js/3.f3b67330.js"><link rel="prefetch" href="/assets/js/4.f0b0e0a5.js"><link rel="prefetch" href="/assets/js/5.92d8103e.js"><link rel="prefetch" href="/assets/js/6.c512c0c2.js"><link rel="prefetch" href="/assets/js/7.7d603bfd.js"><link rel="prefetch" href="/assets/js/8.d89bd4f9.js"><link rel="prefetch" href="/assets/js/0.a7d14df4.js"><link rel="prefetch" href="/assets/js/10.e1b93769.js"><link rel="prefetch" href="/assets/js/11.89b11d71.js"><link rel="prefetch" href="/assets/js/13.7aceb7a8.js"><link rel="prefetch" href="/assets/js/14.63263023.js"><link rel="prefetch" href="/assets/js/15.986164f8.js">
+    <link rel="stylesheet" href="/assets/css/16.styles.3a529fc4.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/" class="home-link router-link-active"></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>Общая информация</span><!----></p><ul class="sidebar-group-items"><li><a href="/" class="sidebar-link">Общая информация</a></li><li><a href="/history/" class="sidebar-link">Эволюция процесса разработки</a></li><li><a href="/weaknesses/" class="sidebar-link">Недостатки стандартного подхода к разработке</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>Примеры использования</span><!----></p><ul class="sidebar-group-items"><li><a href="/examples/ex0/" class="sidebar-link">Установка серверного ПО</a></li><li><a href="/examples/ex1/" class="sidebar-link">Переключение между настройками одного и того же ПО</a></li><li><a href="/examples/ex2/" class="sidebar-link">Переключение между версиями ПО</a></li><li><a href="/examples/ex3/" class="active sidebar-link">Переключение между пользователями</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="перекnючение-между-поnьзоватеnями"><a href="#перекnючение-между-поnьзоватеnями" aria-hidden="true" class="header-anchor">#</a> Переключение между пользователями</h1><p>В моей практике было одно приложение, в котором была реализована очень сложная логика работы с пользователями.
+В приложении было более 5 ролей. 4 стадии работы приложения. Процесс тестирования был похож на ад.
+Для тестирования необходимо было сделать следующее:</p><ol><li>В каждой из стадий приложения необходимо авторизоваться под пользователем с конкретной ролью.</li><li>Проверить работу функционала.</li><li>Перейти на следующую стадию.</li></ol><p>В рамках проверки фунционала пользователи с разными ролями могли по нескольку раз перекидывать друг-другу документы.
+Переавторизовываться каждый раз было весьма утомительно.
+Как вариант конечно можно использовать несколько браузеров и режимы инкогнито.
+У такого способа есть определенные недостатки:</p><ol><li>Необходимость установки дополнительных браузеров.</li><li>Невозможность использования одних и тех же инструментов для отладки.</li></ol><p>Для преодоления такого рода недостатков можно использовать докер.</p><p>Для осуществления такого желания необходимо сделать следующее:</p><ol><li>Создайте контейнер с БД.</li><li>Создайте необходимое количество контейнеров с монтированием одной и той же папки с кодом.</li><li>Для этих сервисов в <code>docker-compose.yml</code> укажите внешние порты отличные друг от друга.</li><li>В браузере открывайте вкладки с авторизацией под разными пользователями.</li></ol></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/examples/ex2/" class="prev">
+          Переключение между версиями ПО
+        </a></span><!----></p></div></div></div></div>
+    <script src="/assets/js/12.e69afcf9.js" defer></script><script src="/assets/js/app.1582730d.js" defer></script>
+  </body>
+</html>
