@@ -8,7 +8,16 @@ module.exports = {
           '/',
           '/history/',
           '/weaknesses/',
-          '/examples/',
+        ]
+      },
+      {
+        title: 'Примеры использования',
+        collapsable: false,
+        children: [
+          '/examples/ex0/',
+          '/examples/ex1/',
+          '/examples/ex2/',
+          '/examples/ex3/',
         ]
       },
     ],
