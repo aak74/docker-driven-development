@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/docker-driven-development',
+  base: '/docker-driven-development/',
   title: 'Docker Driven Development',
   description: 'Использование docker в процессе разработки',
   themeConfig: {
