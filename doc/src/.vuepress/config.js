@@ -1,4 +1,5 @@
 module.exports = {
+  base: 'docker-driven-development',
   themeConfig: {
     sidebar: [
       {
