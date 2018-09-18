@@ -5,7 +5,7 @@ module.exports = {
   themeConfig: {
     sidebar: [{
         title: 'Введение',
-        collapsable: false,
+        collapsable: true,
         children: [
           '/',
           '/history/',
@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         title: 'Примеры использования',
-        collapsable: false,
+        collapsable: true,
         children: [
           '/examples/',
           '/examples/ex0/',
@@ -32,13 +32,8 @@ module.exports = {
           // '/examples/ex9/',
         ]
       },
-      {
-        title: 'Выводы',
-        collapsable: false,
-        children: [
-          '/summary/',
-        ]
-      },
+      '/extra/',
+      '/summary/',
     ],
     sidebarDepth: 3
   },
