@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Docker Driven Development | Полноценное использование БД</title>
+    <meta name="description" content="Использование docker в процессе разработки">
+    
+    
+    <link rel="preload" href="/docker-driven-development/assets/css/19.styles.ea8038a2.css" as="style"><link rel="preload" href="/docker-driven-development/assets/js/app.fc46e782.js" as="script"><link rel="preload" href="/docker-driven-development/assets/js/14.44db3b2b.js" as="script"><link rel="prefetch" href="/docker-driven-development/assets/js/10.5ebb23df.js"><link rel="prefetch" href="/docker-driven-development/assets/js/1.9b30b361.js"><link rel="prefetch" href="/docker-driven-development/assets/js/2.7934a5e9.js"><link rel="prefetch" href="/docker-driven-development/assets/js/3.328a9151.js"><link rel="prefetch" href="/docker-driven-development/assets/js/4.07aa4ba8.js"><link rel="prefetch" href="/docker-driven-development/assets/js/5.2a70aeca.js"><link rel="prefetch" href="/docker-driven-development/assets/js/6.b48d37e7.js"><link rel="prefetch" href="/docker-driven-development/assets/js/7.457182d7.js"><link rel="prefetch" href="/docker-driven-development/assets/js/8.ef674c9a.js"><link rel="prefetch" href="/docker-driven-development/assets/js/9.3e39c874.js"><link rel="prefetch" href="/docker-driven-development/assets/js/0.95431dfd.js"><link rel="prefetch" href="/docker-driven-development/assets/js/11.f20f9f2d.js"><link rel="prefetch" href="/docker-driven-development/assets/js/12.855ff12e.js"><link rel="prefetch" href="/docker-driven-development/assets/js/13.194438c4.js"><link rel="prefetch" href="/docker-driven-development/assets/js/15.3d648acf.js"><link rel="prefetch" href="/docker-driven-development/assets/js/16.28673803.js"><link rel="prefetch" href="/docker-driven-development/assets/js/17.1d4bf30c.js"><link rel="prefetch" href="/docker-driven-development/assets/js/18.d0eba4c1.js">
+    <link rel="stylesheet" href="/docker-driven-development/assets/css/19.styles.ea8038a2.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/docker-driven-development/" class="home-link router-link-active"><!----><span class="site-name">
+      Docker Driven Development
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><!----></div></header><div class="sidebar-mask"></div><div class="sidebar"><!----><ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading"><span>Введение</span><span class="arrow right"></span></p><!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading open"><span>Примеры использования</span><span class="arrow down"></span></p><ul class="sidebar-group-items"><li><a href="/docker-driven-development/examples/" class="sidebar-link">Примеры</a></li><li><a href="/docker-driven-development/examples/ex0/" class="sidebar-link">Установка серверного ПО</a></li><li><a href="/docker-driven-development/examples/ex10/" class="sidebar-link">Запуск простого проекта на локальном компьютере</a></li><li><a href="/docker-driven-development/examples/ex11/" class="sidebar-link">Добавляем БД</a></li><li><a href="/docker-driven-development/examples/ex12/" class="sidebar-link">Тестирование с использованием БД</a></li><li><a href="/docker-driven-development/examples/ex13/" class="active sidebar-link">Полноценное использование БД</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docker-driven-development/examples/ex13/#рецепт" class="sidebar-link">Рецепт</a></li><li class="sidebar-sub-header"><a href="/docker-driven-development/examples/ex13/#итоговый-файn-docker-compose-yml" class="sidebar-link">Итоговый файл docker-compose.yml</a></li></ul></li><li><a href="/docker-driven-development/examples/ex14/" class="sidebar-link">Переключение между состояниями БД</a></li><li><a href="/docker-driven-development/examples/ex20/" class="sidebar-link">Переключение между настройками одного и того же ПО</a></li><li><a href="/docker-driven-development/examples/ex2/" class="sidebar-link">Переключение между версиями ПО</a></li><li><a href="/docker-driven-development/examples/ex3/" class="sidebar-link">Переключение между пользователями</a></li><li><a href="/docker-driven-development/examples/ex5/" class="sidebar-link">Тестирование с использованием mock-сервиса</a></li></ul></div></li><li><a href="/docker-driven-development/extra/" class="sidebar-link">Дополнительные вопросы</a></li><li><a href="/docker-driven-development/summary/" class="sidebar-link">Выводы</a></li></ul></div><div class="page"><div class="content"><h1 id="поnноценное-испоnьзование-бд"><a href="#поnноценное-испоnьзование-бд" aria-hidden="true" class="header-anchor">#</a> Полноценное использование БД</h1><p>В <a href="/docker-driven-development/examples/ex11/">примере</a> мы подключили БД. И даже заполнили ее. Но при перезапуске контейнера все данные потерялись. Такое поведение было описано в <a href="/docker-driven-development/examples/ex0/">нулевом примере</a>.</p><p>Обычно мы хотим все же сохранения данных в БД даже после перезапуска контейнера.</p><h2 id="рецепт"><a href="#рецепт" aria-hidden="true" class="header-anchor">#</a> Рецепт</h2><p>В файле <code>docker-compose.yml</code> изменяем секцию с описанием контейнера следующим образом:</p><pre class="language-text"><code>mongo:
+  image: mongo:3.6-stretch
+  volumes:
+    - ./data/mongo:/data/db
+  networks:
+    - skynet
+</code></pre><p>Теперь БД будет сохраняться и при перезапуске контейнера.</p><h2 id="итоговый-файn-docker-compose-yml"><a href="#итоговый-файn-docker-compose-yml" aria-hidden="true" class="header-anchor">#</a> Итоговый файл docker-compose.yml</h2><pre class="language-text"><code>version: '2'
+
+services:
+  server:
+    image: node:8-alpine
+    ports:
+      - 3000:3000 
+    networks:
+      - skynet
+  mongo:
+    image: mongo:3.6-stretch
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - skynet
+networks:
+  skynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.1/24      
+</code></pre></div><!----><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/docker-driven-development/examples/ex12/" class="prev">
+          Тестирование с использованием БД
+        </a></span><span class="next"><a href="/docker-driven-development/examples/ex14/">
+          Переключение между состояниями БД
+        </a> →
+      </span></p></div></div></div></div>
+    <script src="/docker-driven-development/assets/js/14.44db3b2b.js" defer></script><script src="/docker-driven-development/assets/js/app.fc46e782.js" defer></script>
+  </body>
+</html>
