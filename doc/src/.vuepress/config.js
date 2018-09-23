@@ -2,6 +2,7 @@ module.exports = {
   base: '/docker-driven-development/',
   title: 'Docker Driven Development',
   description: 'Использование docker в процессе разработки',
+  serviceWorker: true,
   themeConfig: {
     sidebar: [{
         title: 'Введение',
@@ -36,6 +37,26 @@ module.exports = {
       '/extra/',
       '/summary/',
     ],
-    sidebarDepth: 3
+    sidebarDepth: 3,
+    serviceWorker: {
+      updatePopup: true
+    },
+    repo: 'aak74/docker-driven-development',
+    // Customising the header label
+    // Defaults to "GitHub"/"GitLab"/"Bitbucket" depending on `themeConfig.repo`
+    repoLabel: 'Contribute!',
+
+    // Optional options for generating "Edit this page" link
+
+    // if your docs are in a different repo from your main project:
+    docsRepo: 'aak74/docker-driven-development',
+    // if your docs are not at the root of the repo:
+    docsDir: 'doc',
+    // if your docs are in a specific branch (defaults to 'master'):
+    docsBranch: 'master',
+    // defaults to false, set to true to enable
+    editLinks: true,
+    // custom text for edit link. Defaults to "Edit this page"
+    editLinkText: 'Помоги улучшить страницу!'
   },
 }
