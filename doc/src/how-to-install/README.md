@@ -1,4 +1,4 @@
-# Установка ПО
+# Установка docker и docker-compose
 
 Для начала работы необходимо установить docker и docker-compose
 
