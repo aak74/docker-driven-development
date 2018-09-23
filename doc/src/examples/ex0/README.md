@@ -47,7 +47,7 @@ __Установка ПО никогда еще не была настолько
 Вместо использования готовых образов можно подготовить свой образ.
 Делается это с помощью файла Dockerfile.
 
-```dockerfile
+```jsx
 FROM mongo:3-jessie
 
 COPY ./mongo.conf /usr/local/etc/mongo/mongo.conf
@@ -69,7 +69,7 @@ CMD ["mongod"]
 
 ### Пример docker-compose.yml
 
-```yml
+```yaml
 version: '2'
 
 services:

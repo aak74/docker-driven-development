@@ -22,7 +22,7 @@
 1. Открываем в браузере страницу с адресом: http://localhost:3000
 
 ## Итоговый файл docker-compose.yml
-```
+```yaml
 version: '2'
 
 services:

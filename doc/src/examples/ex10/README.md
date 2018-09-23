@@ -5,7 +5,7 @@
 
 ## Рецепт
 1. Создаем файл `docker-compose.yml`:
-    ```dockerfile=
+    ```yaml
     version: '2'
 
     services:
