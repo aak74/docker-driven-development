@@ -1,0 +1,11 @@
+.reveal section img {
+  border: none;
+}
+
+.reveal li.mini {
+  font-size: 80%;
+}
+
+.speaker-controls-notes {
+  font-size: 80%;
+}
