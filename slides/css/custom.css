@@ -9,3 +9,15 @@
 .speaker-controls-notes {
   font-size: 80%;
 }
+
+section {
+  top: 20px !important;
+}
+
+section.mini {
+  font-size: 60%;
+}
+
+p.left {
+  text-align: left;
+}

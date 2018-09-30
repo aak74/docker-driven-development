@@ -7,10 +7,10 @@
 ## Рецепт
 В файле `docker-compose.yml` изменяем секцию с описанием контейнера следующим образом:
 ```
-mongo:
-  image: mongo:3.6-stretch
+mysql:
+  image: mysql:8
   volumes:
-    - ./data/mongo:/data/db
+    - ./data/mysql:/var/lib/mysql
   networks:
     - skynet
 ```
@@ -27,10 +27,10 @@ services:
       - 3000:3000 
     networks:
       - skynet
-  mongo:
-    image: mongo:3.6-stretch
+  mysql:
+    image: mysql:8
     volumes:
-      - ./data/mongo:/data/db
+      - ./data/mysql:/var/lib/mysql
     networks:
       - skynet
 networks:

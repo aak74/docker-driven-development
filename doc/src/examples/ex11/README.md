@@ -8,18 +8,19 @@
 
 ## Рецепт
 1. В файл `docker-compose.yml` добавляем в секцию `services` раздел с описанием контейнера (4 строки).
-    ```
-    mongo:
-      image: mongo:3.6-stretch
+    ```yaml
+    mysql:
+      image: mysql:8
       networks:
         - skynet
     ```
+1. Восстанавливаем БД из бэкапа.
 1. В исходниках указываем данные для подключения к БД.
 1. Запускаем в консоли:
     ```
     docker-compose up --build -d
     ```
-1. Открываем в браузере страницу с адресом: http://localhost:3000
+1. Открываем в браузере страницу с адресом: http://localhost
 
 ## Итоговый файл docker-compose.yml
 ```yaml
@@ -27,13 +28,15 @@ version: '2'
 
 services:
   server:
-    image: node:8-alpine
+    image: php:7-apache
     ports:
-      - 3000:3000 
+      - 80:80
+    volumes:
+      - ./src:/var/www/html
     networks:
       - skynet
-  mongo:
-    image: mongo:3.6-stretch
+  mysql:
+    image: mysql:8
     networks:
       - skynet
 networks:

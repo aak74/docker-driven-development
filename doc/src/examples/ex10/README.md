@@ -10,15 +10,14 @@
 
     services:
       server:
-        image: node:8-alpine
+        image: php:7-apache
         ports:
-          - 3000:3000 
+          - 80:80
+        volumes:
+          - ./src:/var/www/html
         networks:
           - skynet
-      mongo:
-        image: mongo:3.6-stretch
-        networks:
-          - skynet
+
     networks:
       skynet:
         driver: bridge
@@ -27,8 +26,9 @@
           config:
             - subnet: 10.1.0.1/24      
     ```
+1. В папку сурс помещаем файлы проекта:
 1. Запускаем в консоли:
     ```
     docker-compose up --build -d
     ```
-1. Открываем в браузере страницу с адресом: http://localhost:3000
+1. Открываем в браузере страницу с адресом: http://localhost
