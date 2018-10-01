@@ -6,6 +6,10 @@
   font-size: 80%;
 }
 
+.reveal pre code {
+  max-height: 480px;
+}
+
 .speaker-controls-notes {
   font-size: 80%;
 }
@@ -15,9 +19,10 @@ section {
 }
 
 section.mini {
-  font-size: 60%;
+  font-size: 80%;
 }
 
 p.left {
   text-align: left;
 }
+

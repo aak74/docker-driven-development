@@ -7,11 +7,11 @@
 		<title>Docker Driven Development</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/white.css">
+		<link rel="stylesheet" href="css/theme/solarized.css">
 		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/github.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -53,9 +53,9 @@
 				<section>
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
+						<li class="fragment mini left">Версии ПО отличаются на проде и на компьютере разработчика</li>
 						<li class="fragment mini left">Сложность установки ПО</li>
 						<li class="fragment mini left">Нет нужной версии ПО под вашу OS</li>
-						<li class="fragment mini left">Версии ПО отличаются на проде и на компьютере разработчика</li>
 						<li class="fragment mini left">Сложное развертывание проекта</li>
 						<li class="fragment mini left">Очень сложно исполнять один и тот же код с разными версиями ПО или с разными настройками</li>
 						<li class="fragment mini left">Устанавливаемое ПО засоряет компьютер разработчика</li>
@@ -65,6 +65,8 @@
 
 						## Версии ПО отличаются на проде и на компьютере разработчика
 						Средний разработчик часто не задумывается о необходимости совпадения версий ПО на проде и на своем компьютере. Допускаю, что он и не должен об этом задумываться. Это может быть проблемой его старших коллег. Однако для старших коллег соблюдение версий ПО приводит к внушительному вороху проблем.
+
+						Почему это происходит?
 
 						## Нет нужной версии ПО под вашу OS
 						Случается, что ПО недоступно для установки на конкретно вашу OS. 
@@ -151,6 +153,8 @@
 							mongo:
 								image: mongo:3-jessie
 								container_name: mongodb
+								ports:
+									- 27017:27017
 								volumes:
 									- ./data/mongo:/data/db
 								networks:
@@ -256,7 +260,30 @@
 				<section>
 					<h3>Тестирование с использованием mock-сервиса</h3>
 				</section>
-				<section>
+				<section data-markdown>
+						<textarea data-template>
+							### Структура папок
+							```bash
+							|-- containers
+							|   |-- apache
+							|   |   |-- rootfs
+							|   |   |   `-- etc
+							|   |   `-- Dockerfile
+							|   `-- mysql
+							|       |-- rootfs
+							|       |   `-- etc
+							|       `-- Dockerfile
+							|-- data
+							|   `-- mysql
+							|-- logs
+							|   |-- apache
+							|   `-- mysql
+							|-- src
+							`-- docker-compose.yml
+								```
+						</textarea>
+					</section>
+					<section>
 					<h3>Дополнительные вопросы</h3>
 					<ul>
 						<li class="fragment">Пользователь в Dockerfile</li>
