@@ -39,7 +39,7 @@
 						<li class="fragment mini left">Виртуалка + FTP</li>
 						<li class="fragment mini left">Виртуалка + Samba</li>
 						<li class="fragment mini left">Linux как основная OS</li>
-						<li class="fragment mini left">Linux (Windows, MacOS) + lsync (realsync)</li>
+						<li class="fragment mini left">Код на локальной машине + lsync (realsync)</li>
 						<li class="fragment mini left">Docker</li>
 					</ol>
 					<aside class="notes">
@@ -53,11 +53,15 @@
 				<section>
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
-						<li class="fragment mini left">Версии ПО отличаются на проде и на компьютере разработчика</li>
-						<li class="fragment mini left">Сложность установки ПО</li>
-						<li class="fragment mini left">Нет нужной версии ПО под вашу OS</li>
+						<li class="fragment mini left">
+							<span>Версии ПО отличаются на проде и на компьютере разработчика</span>
+							<ul>
+								<li class="fragment mini left">Сложность установки ПО</li>
+								<li class="fragment mini left">Нет нужной версии ПО под вашу OS</li>
+							</ul>
+						</li>
 						<li class="fragment mini left">Сложное развертывание проекта</li>
-						<li class="fragment mini left">Очень сложно исполнять один и тот же код с разными версиями ПО или с разными настройками</li>
+						<li class="fragment mini left">Сложно исполнять один и тот же код с разными версиями ПО</li>
 						<li class="fragment mini left">Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
 					<aside class="notes mini" data-markdown>
@@ -66,6 +70,7 @@
 						## Версии ПО отличаются на проде и на компьютере разработчика
 						Средний разработчик часто не задумывается о необходимости совпадения версий ПО на проде и на своем компьютере. Допускаю, что он и не должен об этом задумываться. Это может быть проблемой его старших коллег. Однако для старших коллег соблюдение версий ПО приводит к внушительному вороху проблем.
 
+						Почему это важно?
 						Почему это происходит?
 
 						## Нет нужной версии ПО под вашу OS
@@ -91,6 +96,8 @@
 						1. Если инструкция все таки написана, то само развертывание проекта для нового разработчика все равно представляет собой сложную задачу. 
 						1. Каждое развертывание занимает много времени.
 						
+						Проблема зачастую заключается в том, что в такого рода инструкциях очень много шагов.
+						Ошибка на любом этапе приводит к невозможности установки.
 						Для выполнения даже самых простых задач на таком проекте требуется потратить очень много времени.
 						Частая ситуация: нужно _покрасить_ кнопочку или внести другие схожие изменения. Эта работа обычно занимает 15-30 минут времени. Причем эту работу в состоянии выполнить и junior. А на развертывание проекта легко уходит от одного часа и более. Причем квалификация человека, который разворачивает проект, должна быть выше квалификации конечного исполнителя. Простейшая задача становится дорогой. А такие затраты сложно объяснить заказчику. 
 						
@@ -115,21 +122,28 @@
 						Если для установленного ПО выходят обновления, то вы их скачиваете без особой на то надобности. Сразу вспоминается Skype, который в последнее время обновляется чуть ли не ежедневно.
 					</aside>
 				</section>
+				<section class="intro" data-background="/images/docker.png">
+					<h2>Введение</h2>
+				</section>
 				<section>
-					<h3>Введение</h2>
+					<h3>Образ и контейнер</h3>
 					<ul>
 						<li class="fragment mini">Образ и контейнер</li>
 						<li class="fragment mini">Распространение образов</li>
 						<li class="fragment mini">Запуск контейнера (docker run)</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Еще немного</h3>
+					<ul>
 						<li class="fragment mini">Порты</li>
 						<li class="fragment mini">Тома</li>
 						<li class="fragment mini">Dockerfile</li>
 						<li class="fragment mini">docker-compose</li>
-						<li class="fragment mini">Запуск сервиса внутри контейнера (docker-compose run)</li>
 					</ul>
 				</section>
 				<section>
-					<h3>Примеры</h2>
+					<h3>Примеры</h3>
 					<ol>
 						<li class="mini">Установка серверного ПО</li>
 						<li class="mini">Запуск простого проекта на локальном компьютере</li>
@@ -157,19 +171,9 @@
 									- 27017:27017
 								volumes:
 									- ./data/mongo:/data/db
-								networks:
-									- skynet
 								restart: always
 								entrypoint:
 									mongod
-									
-						networks:
-							skynet:
-								driver: bridge
-								ipam:
-									driver: default
-									config:
-										- subnet: 10.1.0.1/24
 						```
 					</textarea>
 				</section>
@@ -186,16 +190,6 @@
 									- 80:80
 								volumes:
 									- ./src:/var/www/html
-								networks:
-									- skynet
-				
-						networks:
-							skynet:
-								driver: bridge
-								ipam:
-									driver: default
-									config:
-										- subnet: 10.1.0.1/24      
 						```
 					</textarea>
 				</section>
@@ -205,8 +199,6 @@
 						```yaml
 						mysql:
 							image: mysql:8
-							networks:
-								- skynet
 						```
 					</textarea>
 				</section>
@@ -235,8 +227,6 @@
 						image: mysql:8
 						volumes:
 							- ./data/mysql:/var/lib/mysql
-						networks:
-							- skynet
 						```
 					</textarea>
 				</section>
@@ -292,22 +282,30 @@
 						<li class="fragment">Слоистая структура образов</li>
 						<li class="fragment">Устаревшие образы продолжают занимать место</li>
 						<li class="fragment">Использование Docker в Windows и MacOS</li>
+						<li class="fragment">Запуск сервиса внутри контейнера (docker-compose run)</li>
 					</ul>
 				</section>
 				<section>
 					<h3>Выводы</h3>
 					<ul>
-						<li class="fragment">Docker - очень просто начать</li>
-						<li class="fragment">Docker обладает очень большими возможностями</li>
-						<li class="fragment">Resume driven development completed</li>
-						<li class="fragment">Мы нанимаем: job@arealidea.ru</li>
+						<li class="fragment">Docker - просто начать</li>
+						<li class="fragment">Docker - большие возможности</li>
 					</ul>
 				</section>
 				<section>
+						<h1><span>Resume</span><span class="fragment"> driven</span><span class="fragment"> development</span> <span class="fragment bright"> completed!</span></h1>
+				</section>
+				<section class="thanks" data-background="/images/friends.png" data-background-size="600px">
 					<h3>Спасибо!</h3>
 					<h3>Вопросы?</h3>
+					<p class="left">Андрей Копылов</p>
 					<p class="left">aa74ko@gmail.com</p>
 					<p class="left">https://github.com/aak74/docker-driven-development</p>
+					<br />
+					<strong>
+						<p class="left">Мы нанимаем:</p>
+						<p class="left">job@arealidea.ru</p>
+					</strong>
 				</section>
 			</div>
 		</div>

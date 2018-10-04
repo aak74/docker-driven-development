@@ -26,3 +26,17 @@ p.left {
   text-align: left;
 }
 
+.slide-background.intro.present div {
+  width: 60%;
+  /* height: 60%; */
+}
+
+.slide-background.thanks.present div {
+  /* width: 30%;
+  height: 30%; */
+  background-position: right bottom;
+}
+
+.bright {
+  color: darkblue;
+}
