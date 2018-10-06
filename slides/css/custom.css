@@ -22,21 +22,37 @@ section.mini {
   font-size: 80%;
 }
 
-p.left {
+p {
   text-align: left;
 }
 
-.slide-background.intro.present div {
-  width: 60%;
-  /* height: 60%; */
+p.center {
+  text-align: center;
 }
 
-.slide-background.thanks.present div {
-  /* width: 30%;
-  height: 30%; */
+ol,
+ul {
+  /* margin-left: auto;
+  margin-right: auto; */
+  display: table;
+  text-align: left;
+}
+.slide-background.present div {
   background-position: right bottom;
 }
 
+.slide-background.present.title div {
+  background-position: left bottom;
+}
+
+/* .slide-background.thanks.present div {
+  background-position: right bottom;
+} */
+
 .bright {
   color: darkblue;
+}
+
+li.strike {
+  text-decoration: line-through;
 }

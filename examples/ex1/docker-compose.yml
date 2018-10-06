@@ -34,10 +34,13 @@ services:
   db:
     build: ./containers/${DB_SERVER_TYPE}
     container_name: db
+    ports:
+      - 3306:3306
     volumes:
       - /etc/localtime:/etc/localtime/:ro
       - ./logs/${DB_SERVER_TYPE}:/var/log/mysql
       - ./data/${DB_SERVER_TYPE}:/var/lib/mysql
+      - ./data/backup:/backup
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}

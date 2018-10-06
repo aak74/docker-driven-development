@@ -25,22 +25,19 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-markdown>
-					<textarea data-template>
-						# Docker Driven Development
-
-						Нужен ли Docker для разработки?
-					</textarea>
+				<section class="title" data-background="/images/docker.png" data-background-size="400px" data-background-opacity="0.2">
+					<h1>Docker Driven Development</h1>
+					<p class="center">Нужен ли Docker для разработки?</p>
 				</section>
 				<section>
 					<h3>Эволюция процесса разработки</h2>
 					<ol>
-						<li class="fragment mini left">Denwer, WAMP, XAMP</li>
-						<li class="fragment mini left">Виртуалка + FTP</li>
-						<li class="fragment mini left">Виртуалка + Samba</li>
-						<li class="fragment mini left">Linux как основная OS</li>
-						<li class="fragment mini left">Код на локальной машине + lsync (realsync)</li>
-						<li class="fragment mini left">Docker</li>
+						<li class="fragment">Denwer, WAMP, XAMP</li>
+						<li class="fragment">Виртуалка + FTP</li>
+						<li class="fragment">Виртуалка + Samba</li>
+						<li class="fragment">Linux как основная OS</li>
+						<li class="fragment">Код на локальной машине + lsync (realsync)</li>
+						<li class="fragment">Docker</li>
 					</ol>
 					<aside class="notes">
 						Описание эволюции моего процесса разработки
@@ -53,16 +50,16 @@
 				<section>
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
-						<li class="fragment mini left">
+						<li class="fragment">
 							<span>Версии ПО отличаются на проде и на компьютере разработчика</span>
 							<ul>
-								<li class="fragment mini left">Сложность установки ПО</li>
-								<li class="fragment mini left">Нет нужной версии ПО под вашу OS</li>
+								<li class="fragment">Сложность установки ПО</li>
+								<li class="fragment">Нет нужной версии ПО под вашу OS</li>
 							</ul>
 						</li>
-						<li class="fragment mini left">Сложное развертывание проекта</li>
-						<li class="fragment mini left">Сложно исполнять один и тот же код с разными версиями ПО</li>
-						<li class="fragment mini left">Устанавливаемое ПО засоряет компьютер разработчика</li>
+						<li class="fragment">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li class="fragment">Сложное развертывание проекта</li>
+						<li class="fragment">Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
 					<aside class="notes mini" data-markdown>
 						# Недостатки стандартного подхода к разработке
@@ -122,34 +119,33 @@
 						Если для установленного ПО выходят обновления, то вы их скачиваете без особой на то надобности. Сразу вспоминается Skype, который в последнее время обновляется чуть ли не ежедневно.
 					</aside>
 				</section>
-				<section class="intro" data-background="/images/docker.png">
+				<section class="intro" data-background="/images/docker.png" data-background-size="800px" data-background-opacity="0.5">
 					<h2>Введение</h2>
 				</section>
-				<section>
+				<section data-transition="none">
 					<h3>Образ и контейнер</h3>
 					<ul>
-						<li class="fragment mini">Образ и контейнер</li>
-						<li class="fragment mini">Распространение образов</li>
-						<li class="fragment mini">Запуск контейнера (docker run)</li>
+						<li class="fragment">Образ и контейнер</li>
+						<li class="fragment">Распространение образов</li>
+						<li class="fragment">Запуск контейнера (docker run)</li>
 					</ul>
 				</section>
 				<section>
 					<h3>Еще немного</h3>
 					<ul>
-						<li class="fragment mini">Порты</li>
-						<li class="fragment mini">Тома</li>
-						<li class="fragment mini">Dockerfile</li>
-						<li class="fragment mini">docker-compose</li>
+						<li class="fragment">Порты</li>
+						<li class="fragment">Тома</li>
+						<li class="fragment">Dockerfile</li>
+						<li class="fragment">docker-compose</li>
 					</ul>
 				</section>
 				<section>
 					<h3>Примеры</h3>
 					<ol>
-						<li class="mini">Установка серверного ПО</li>
-						<li class="mini">Запуск простого проекта на локальном компьютере</li>
-						<li class="mini">Добавляем БД</li>
+						<li class="mini">Установка БД</li>
 						<li class="mini">Тестирование с использованием БД</li>
 						<li class="mini">Полноценное использование БД</li>
+						<li class="mini">Запуск простого проекта на локальном компьютере</li>
 						<li class="mini">Переключение между состояниями БД</li>
 						<li class="mini">Переключение между настройками одного и того же ПО</li>
 						<li class="mini">Переключение между версиями ПО</li>
@@ -159,23 +155,58 @@
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
-						### Установка серверного ПО
+						### Установка БД
 						```yaml
 						version: '2'
 
 						services:
-							mongo:
-								image: mongo:3-jessie
-								container_name: mongodb
+							mysql:
+								image: mysql:8
 								ports:
-									- 27017:27017
+									- 3306:3306
 								volumes:
-									- ./data/mongo:/data/db
+									- ./data/mysql:/var/lib/mysql
+									- ./data/backup:/backup
 								restart: always
-								entrypoint:
-									mongod
 						```
+						<aside class="notes mini" data-markdown>
+							## Описание проблемы 
+							Первой проблемой, которая меня подтолкнула к контейнерам была невозможность 
+							установки конкретной версии MySQL на свой компьютер. Проблема заключалась в том,
+							что у меня уже стояла одна из предыдущих версий и отказываться от нее не входило в мои планы.
+							
+							## Решение
+							Устанавливаем БД в контейнере.
+							
+							1. Берем готовый образ из Docker Hub.
+							1. Указываем порт, который будет доступен на локальном компьютере.
+							1. Монтируем том, который будет содержать данные.
+							1. Остается только развернуть БД из бэкапа
+
+							docker exec -it db sh -c "mysql -u root -p db < /backup/db.sql"
+
+							Конкретно для mysql есть вариант первоначального восстановления из бэкапа проще. 
+							Но он не рассмотрен для простоты.
+						</aside>
 					</textarea>
+				</section>
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li>Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li>Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li>Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
@@ -190,43 +221,6 @@
 									- 80:80
 								volumes:
 									- ./src:/var/www/html
-						```
-					</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						### Добавляем БД
-						```yaml
-						mysql:
-							image: mysql:8
-						```
-					</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						#### Стандартный подход к тестированию с использованием БД
-						1. Создать БД и наполнить БД нужными данными, либо восстановить ее из бэкапа.
-						1. Выполнить тесты.
-						1. Удалить или очистить БД.
-					</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						#### Современый подход к тестированию с использованием БД
-						1. Создать __один раз__ контейнер содержащий БД.
-						1. Запускаем контейнер.
-						1. Запускаем тесты.
-						1. Останавливаем контейнер.						
-					</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						### Полноценное использование БД
-						```yaml
-						mysql:
-						image: mysql:8
-						volumes:
-							- ./data/mysql:/var/lib/mysql
 						```
 					</textarea>
 				</section>
@@ -247,6 +241,38 @@
 						<li class="fragment">Необходимость использования одинаковых средств отладки.</li>
 					</ul>
 				</section>
+				<section>
+						<h2>Тестирование с использованием БД</h2>
+						<ol>
+							<li class="fragment">Ручное тестирование скриптов</li>
+							<li class="fragment">Ручное тестирование функционала</li>
+							<li class="fragment">
+								<span>Unit тестирование</span>
+								<ul>
+									<li class="fragment">Лучше не надо</li>
+									<li class="fragment">Но если очень хочется...</li>
+								</ul>
+							</li>
+						</ol>					
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							#### Стандартный подход к тестированию с использованием БД
+							1. Создать БД и наполнить БД нужными данными, либо восстановить ее из бэкапа.
+							1. Выполнить тесты.
+							1. Удалить или очистить БД.
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+							#### Современый подход к тестированию с использованием БД
+							1. Создать __один раз__ контейнер содержащий БД.
+							1. Запускаем контейнер.
+							1. Запускаем тесты.
+							1. Останавливаем контейнер.						
+						</textarea>
+					</section>
+	
 				<section>
 					<h3>Тестирование с использованием mock-сервиса</h3>
 				</section>
@@ -298,13 +324,13 @@
 				<section class="thanks" data-background="/images/friends.png" data-background-size="600px">
 					<h3>Спасибо!</h3>
 					<h3>Вопросы?</h3>
-					<p class="left">Андрей Копылов</p>
-					<p class="left">aa74ko@gmail.com</p>
-					<p class="left">https://github.com/aak74/docker-driven-development</p>
+					<p>Андрей Копылов</p>
+					<p>aa74ko@gmail.com</p>
+					<p>https://github.com/aak74/docker-driven-development</p>
 					<br />
 					<strong>
-						<p class="left">Мы нанимаем:</p>
-						<p class="left">job@arealidea.ru</p>
+						<p>Мы нанимаем:</p>
+						<p>job@arealidea.ru</p>
 					</strong>
 				</section>
 			</div>
