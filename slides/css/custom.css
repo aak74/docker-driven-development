@@ -18,8 +18,16 @@ section {
   top: 20px !important;
 }
 
-section.mini {
+/* section.mini {
   font-size: 80%;
+} */
+
+section.mini pre {
+  font-size: 50%;
+}
+
+section.size-xs pre {
+  font-size: 40%;
 }
 
 p {
@@ -50,7 +58,7 @@ ul {
 } */
 
 .bright {
-  color: darkblue;
+  color: #ff2c2d !important;
 }
 
 li.strike {

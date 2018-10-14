@@ -120,6 +120,12 @@
 						Если для установленного ПО выходят обновления, то вы их скачиваете без особой на то надобности. Сразу вспоминается Skype, который в последнее время обновляется чуть ли не ежедневно.
 					</aside>
 				</section>
+				<section>
+					<h2>Docker</h2>
+					<h3 class="fragment bright">решает</h3>
+					<p class="fragment center">все эти проблемы</p>
+					<p class="fragment center">и даже больше</p>
+				</section>
 				<section class="intro" data-background="/images/docker.png" data-background-size="800px" data-background-opacity="0.5">
 					<h2>Введение</h2>
 				</section>
@@ -189,25 +195,95 @@
 									- 3306:3306
 								volumes:
 									- ./data/mysql:/var/lib/mysql
-									- ./data/backup:/backup
 								restart: always
 						```
 						<aside class="notes mini" data-markdown>
 						</aside>
 					</textarea>
 				</section>
+				<section data-markdown class="mini">
+					<textarea data-template>
+						#### docker-compose
+						```yaml
+						version: '2'
+
+						services:
+							mysql:
+								image: mysql:8
+								ports:
+									- 3306:3306
+								volumes:
+									- ./data/mysql:/var/lib/mysql
+								restart: always
+							
+							rabbitmq:
+								image: rabbitmq:3.7
+								volumes:
+									- ./data/rabbitmq:/var/lib/rabbitmq
+								restart: always
+						
+							redis:
+								image: redis
+								command: ["redis-server", "--appendonly", "yes"]
+						```
+						<aside class="notes mini" data-markdown>
+						</aside>
+					</textarea>
+				</section>
+				<section data-markdown class="size-xs">
+					<textarea data-template>
+						#### Структура папок
+						```bash
+						|-- containers
+						|   |-- apache
+						|   |   |-- rootfs
+						|   |   |   `-- etc
+						|   |   `-- Dockerfile
+						|   `-- mysql
+						|       |-- rootfs
+						|       |   `-- etc
+						|       `-- Dockerfile
+						|-- data
+						|   |-- mongodb
+						|   |-- mysql
+						|   `-- redis
+						|-- logs
+						|   |-- apache
+						|   |-- mongodb
+						|   |-- mysql
+						|   `-- redis
+						|-- src
+						|   |-- service1
+						|   |-- service2
+						|   `-- service3
+						`-- docker-compose.yml
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Описание контейнера
+						```bash
+						|-- apache
+						|   |-- conf
+						|   |   |-- conf.d
+						|   |   |   `-- default.conf
+						|   |   `-- httpd.conf
+						|   `-- Dockerfile
+						```
+					</textarea>
+				</section>
 				<section>
 					<h3>Примеры</h3>
 					<ol>
-						<li class="mini">Установка БД</li>
-						<li class="mini">Тестирование с использованием БД</li>
-						<li class="mini">Полноценное использование БД</li>
-						<li class="mini">Запуск простого проекта на локальном компьютере</li>
-						<li class="mini">Переключение между состояниями БД</li>
-						<li class="mini">Переключение между настройками одного и того же ПО</li>
-						<li class="mini">Переключение между версиями ПО</li>
-						<li class="mini">Переключение между пользователями</li>
-						<li class="mini">Тестирование с использованием mock сервиса</li>
+						<li>Установка БД</li>
+						<li>Тестирование с использованием БД</li>
+						<li>Запуск простого проекта на локальном компьютере</li>
+						<li>Переключение между состояниями БД</li>
+						<li>Переключение между настройками одного и того же ПО</li>
+						<li>Переключение между версиями ПО</li>
+						<li>Переключение между пользователями</li>
+						<li>Тестирование с использованием mock сервиса</li>
 					</ol>
 				</section>
 				<section data-markdown class="mini">
@@ -281,12 +357,37 @@
 						```
 					</textarea>
 				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### Подключение дебаггера docker-compose
+						```yaml
+						version: '2'
+				
+						services:
+							server:
+								build: apache
+								ports:
+									- 80:80
+								environment:
+									XDEBUG_CONFIG: remote_host={{YOUR_IP_ADDRESS}}									
+								volumes:
+									- ./src:/var/www/html
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### Подключение дебаггера Dockerfile
+						```yaml
+						```
+					</textarea>
+				</section>
 				<section>
 					<h3>Версии ПО или разные настройки</h3>
 					<ul>
 						<li class="fragment">Подключение дебаггера.</li>
 						<li class="fragment">Компиляция проекта разными версиями.</li>
-						<li class="fragment">Тестирование проекта в различных окружениях</li>
+						<li class="fragment">Тестирование проекта в различных окружениях.</li>
 						<li class="fragment">Тестирование продуктов собственной разработки в различных окружениях.</li>
 					</ul>
 				</section>
@@ -306,7 +407,7 @@
 							<li class="fragment">
 								<span>Unit тестирование</span>
 								<ul>
-									<li class="fragment">Лучше не надо</li>
+									<li class="fragment bright">Лучше не надо</li>
 									<li class="fragment">Но если очень хочется...</li>
 								</ul>
 							</li>
@@ -333,30 +434,7 @@
 				<section>
 					<h3>Тестирование с использованием mock-сервиса</h3>
 				</section>
-				<section data-markdown>
-						<textarea data-template>
-							### Структура папок
-							```bash
-							|-- containers
-							|   |-- apache
-							|   |   |-- rootfs
-							|   |   |   `-- etc
-							|   |   `-- Dockerfile
-							|   `-- mysql
-							|       |-- rootfs
-							|       |   `-- etc
-							|       `-- Dockerfile
-							|-- data
-							|   `-- mysql
-							|-- logs
-							|   |-- apache
-							|   `-- mysql
-							|-- src
-							`-- docker-compose.yml
-								```
-						</textarea>
-					</section>
-					<section>
+				<section>
 					<h3>Дополнительные вопросы</h3>
 					<ul>
 						<li class="fragment">Пользователь в Dockerfile</li>
@@ -405,7 +483,8 @@
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
 				]
 			});
 		</script>
