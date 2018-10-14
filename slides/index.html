@@ -30,7 +30,8 @@
 					<p class="center">Нужен ли Docker для разработки?</p>
 				</section>
 				<section>
-					<h3>Эволюция процесса разработки</h2>
+					<h3>Эволюция процесса разработки</h3>
+					<p class="center">на примере разработки сайтов на базе LAMP</p>
 					<ol>
 						<li class="fragment">Denwer, WAMP, XAMP</li>
 						<li class="fragment">Виртуалка + FTP</li>
@@ -44,7 +45,7 @@
 					</aside>
 				</section>
 				<section>
-					<h3>Эволюция процесса разработки</h2>
+					<h3>Эволюция процесса разработки</h3>
 					<image data-src="/images/dev-matrix.png"></image>
 				</section>
 				<section>
@@ -126,18 +127,74 @@
 					<h3>Образ и контейнер</h3>
 					<ul>
 						<li class="fragment">Образ и контейнер</li>
-						<li class="fragment">Распространение образов</li>
-						<li class="fragment">Запуск контейнера (docker run)</li>
+						<li class="fragment">
+							<span>
+								Распространение образов
+							</span>
+							<ul>
+								<li class="fragment">Официальные образы</li>
+								<li class="fragment">Кастомные образы на Docker Hub</li>
+								<li class="fragment">Кастомные образы в приватном Docker Registry</li>
+							</ul>
+						</li>
 					</ul>
 				</section>
-				<section>
-					<h3>Еще немного</h3>
-					<ul>
-						<li class="fragment">Порты</li>
-						<li class="fragment">Тома</li>
-						<li class="fragment">Dockerfile</li>
-						<li class="fragment">docker-compose</li>
-					</ul>
+				<section data-markdown>
+					<textarea data-template>
+						#### Запуск контейнера (docker run)
+						```bash
+						docker run -d \
+							-p 27017:27017 
+							--volume=./data/mongo:/db/data \
+							mongo:3-stretch
+						```
+						<aside class="notes" data-markdown>
+							- -d
+							- Порты
+							- Тома
+						</aside>
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Dockerfile
+						```yaml
+						FROM mongo:3-stretch
+
+						COPY ./mongo.conf /usr/local/etc/mongo/mongo.conf
+						EXPOSE 27017
+						
+						CMD ["mongod"]						
+						```
+						<aside class="notes mini" data-markdown>
+							- Начальный образ
+							- Указать на конкретную версию (тегирование)
+							- Копирование
+							- EXPOSE
+							- CMD
+							- указать на слои (одна строка = один слой)
+						</aside>
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### docker-compose
+						```yaml
+						version: '2'
+
+						services:
+							mysql:
+								image: mysql:8
+								ports:
+									- 3306:3306
+								volumes:
+									- ./data/mysql:/var/lib/mysql
+									- ./data/backup:/backup
+								restart: always
+						```
+						<aside class="notes mini" data-markdown>
+						</aside>
+					</textarea>
 				</section>
 				<section>
 					<h3>Примеры</h3>
