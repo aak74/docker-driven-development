@@ -184,7 +184,7 @@
 				</section>
 				<section data-markdown>
 					<textarea data-template>
-						#### docker-compose
+						#### docker-compose.yml
 						```yaml
 						version: '2'
 
@@ -203,7 +203,7 @@
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
-						#### docker-compose
+						#### docker-compose.yml
 						```yaml
 						version: '2'
 
@@ -293,19 +293,6 @@
 						COPY ./rootfs /
 						```
 					</textarea>
-				</section>
-				<section>
-					<h3>Примеры</h3>
-					<ol>
-						<li>Установка БД</li>
-						<li>Запуск простого проекта на локальном компьютере</li>
-						<li>Переключение между версиями ПО</li>
-						<li>Переключение между настройками одного и того же ПО</li>
-						<li>Переключение между пользователями</li>
-						<li>Тестирование с использованием БД</li>
-						<li>Переключение между состояниями БД</li>
-						<li>Тестирование с использованием mock сервиса</li>
-					</ol>
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
@@ -426,7 +413,7 @@
 				<section data-markdown>
 					<textarea data-template>
 						### Подключение дебаггера 
-						#### docker-compose
+						#### docker-compose.yml
 						```yaml
 						version: '2'
 				
@@ -503,7 +490,7 @@
 					<textarea data-template>
 						### Сложное развертывание проекта
 
-						#### docker-compose
+						#### docker-compose.yml
 						```yaml
 						version: '2'
 
@@ -585,6 +572,64 @@
 					</ol>
 				</section>
 				<section>
+					<h3>Устанавливаемое ПО засоряет компьютер разработчика</h3>
+					<ul>
+						<li class="fragment">Только запущенный контейнер потребляет память и CPU</li>
+						<li class="fragment">Образ состоит из слоев</li>
+						<li class="fragment">От устаревших образов и отдельных слоев можно и нужно избавляться</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						## Слоистая структура образов
+						Каждый образ состоит из нескольких слоев. Слой создает каждая из команд внутри `Dockerfile`. Такой подход обеспечивает переиспользование слоя и экономит место на диске и ускоряет время сборки образа.
+						При повторной сборке образа учитываются изменения в `Dockerfile` и изменения в файлах, которые участвуют в сборке.
+						Если изменений в `Dockerfile` не было, то образ _соберется_ очень быстро.
+						Чем выше в `Dockerfile` были изменения тем больше слоев нужно пересобирать. То есть часто изменяемые настройки следует помещать ближе к концу `Dockerfile`.
+						
+						## Устаревшие образы продолжают занимать место
+						В процессе работы с docker может сильно замусориваться файловая система устаревшими образами и устаревшими слоями. Для того, чтобы этого избежать необходимо чистить файловую систему от неиспользуемых образов. Сделать это можно командой:
+						```
+						docker system prune
+						```
+						
+						Однако это не всегда решает всех проблем, поэтому стоит изучить этот вопрос поподробнее. Или просто купить SSD побольше.				</section>
+					</aside>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### Чистка устаревших образов
+						```
+						docker system prune
+						```
+					</textarea>						
+				</section>
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li class="strike">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li class="strike">Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li class="strike">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li class="strike">Сложное развертывание проекта</li>
+						<li class="strike">Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>
+				<section>
+					<h3>Еще примеры</h3>
+					<ol>
+						<li>Переключение между пользователями</li>
+						<li>Тестирование с использованием БД</li>
+						<li>Переключение между состояниями БД</li>
+						<li>Тестирование с использованием mock сервиса</li>
+					</ol>
+				</section>				
+				<section>
 					<h3>Переключение между пользователями</h3>
 					<ul>
 						<li class="fragment">Сложная логика работы с пользователями.</li>
@@ -633,8 +678,6 @@
 						<li class="fragment">Пользователь в Dockerfile</li>
 						<li class="fragment">Переменные среды</li>
 						<li class="fragment">Документирование (Инфраструктура как код)</li>
-						<li class="fragment">Слоистая структура образов</li>
-						<li class="fragment">Устаревшие образы продолжают занимать место</li>
 						<li class="fragment">Использование Docker в Windows и MacOS</li>
 						<li class="fragment">Запуск сервиса внутри контейнера (docker-compose run)</li>
 					</ul>
@@ -680,6 +723,7 @@
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 				]
 			});
+			Reveal.configure({ slideNumber: true });
 		</script>
 	</body>
 </html>
