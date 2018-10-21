@@ -262,14 +262,35 @@
 				</section>
 				<section data-markdown>
 					<textarea data-template>
-						#### Описание контейнера
+						#### Структура файлов для описания контейнера
 						```bash
-						|-- apache
-						|   |-- conf
-						|   |   |-- conf.d
-						|   |   |   `-- default.conf
-						|   |   `-- httpd.conf
-						|   `-- Dockerfile
+						|-- apache2
+						|   |-- rootfs
+						|   |   `-- etc
+						|   |       |-- apache2
+						|   |       |   |-- conf-available
+						|   |       |   |   `-- remoteip.conf
+						|   |       |   |-- mods-available
+						|   |       |   |   `-- remoteip.conf
+						|   |       |   `-- sites-available
+						|   |       |       |-- 000-default.conf
+						|   |       |       `-- default-ssl.conf
+						|   |       `-- php
+						|   |           `-- 7.2
+						|   |               |-- apache2
+						|   |               |   `-- php.ini
+						|   |               `-- cli
+						|   |                   `-- php.in
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Dockerfile
+						```yaml
+						FROM php:7.2-apache
+
+						COPY ./rootfs /
 						```
 					</textarea>
 				</section>
@@ -323,6 +344,19 @@
 						</aside>
 					</textarea>
 				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Восстановление БД из backup
+
+						```bash
+						docker exec -it db sh -c "mysql -u root -p db < /backup/db.sql"
+						```
+						<aside class="notes" data-markdown>
+							Команда довольно простая и она будет одинаковой для всех проектов, которые используют подобную схему.
+							Идеальным вариантом будет использование утилиты `make`. Тогда один раз написанный `Makefile` можно распространить на все проекты.
+						</aside>
+					</textarea>
+				</section>
 				<section data-transition="none">
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
@@ -341,6 +375,15 @@
 						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
 				</section>
+				<section>
+					<h3>Версии ПО или разные настройки</h3>
+					<ul>
+						<li class="fragment">Тестирование проекта в различных окружениях.</li>
+						<li class="fragment">Тестирование продуктов собственной разработки в различных окружениях.</li>
+						<li class="fragment">Подключение дебаггера.</li>
+						<li class="fragment">Компиляция проекта разными версиями.</li>
+					</ul>
+				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
 						### Запуск простого проекта на локальном компьютере
@@ -349,7 +392,7 @@
 				
 						services:
 							server:
-								image: php:7-apache
+								image: php:7.2-apache
 								ports:
 									- 80:80
 								volumes:
@@ -357,9 +400,33 @@
 						```
 					</textarea>
 				</section>
+				<section data-markdown class="mini">
+					<textarea data-template>
+						### Тестирование проекта в различных окружениях
+						```yaml
+						version: '2'
+				
+						services:
+							server:
+								image: php:7.2-apache
+								ports:
+									- 80:80
+								volumes:
+									- ./src:/var/www/html
+
+							server73:
+								image: php:7.3-apache
+								ports:
+									- 8073:80
+								volumes:
+									- ./src:/var/www/html
+						```
+					</textarea>
+				</section>
 				<section data-markdown>
 					<textarea data-template>
-						### Подключение дебаггера docker-compose
+						### Подключение дебаггера 
+						#### docker-compose
 						```yaml
 						version: '2'
 				
@@ -368,8 +435,6 @@
 								build: apache
 								ports:
 									- 80:80
-								environment:
-									XDEBUG_CONFIG: remote_host={{YOUR_IP_ADDRESS}}									
 								volumes:
 									- ./src:/var/www/html
 						```
@@ -377,20 +442,57 @@
 				</section>
 				<section data-markdown>
 					<textarea data-template>
-						### Подключение дебаггера Dockerfile
+						### Подключение дебаггера
+						#### Dockerfile
 						```yaml
+						FROM php:7.2-apache
+						
+						RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
+							php7.2-xdebug
+											
+						COPY ./rootfs /
 						```
 					</textarea>
 				</section>
-				<section>
-					<h3>Версии ПО или разные настройки</h3>
-					<ul>
-						<li class="fragment">Подключение дебаггера.</li>
-						<li class="fragment">Компиляция проекта разными версиями.</li>
-						<li class="fragment">Тестирование проекта в различных окружениях.</li>
-						<li class="fragment">Тестирование продуктов собственной разработки в различных окружениях.</li>
-					</ul>
+				<section data-markdown>
+					<textarea data-template>
+						### Подключение дебаггера
+						#### Измененный ini файл
+						```bash
+						cat ./containers/apache2/rootfs/etc/php/7.2/apache2/php.ini | grep xdebug
+						```
+						```ini
+						[xdebug]
+						xdebug.remote_host = "172.19.0.1"
+						xdebug.remote_port = 9000
+						xdebug.remote_autostart = 1
+						xdebug.remote_enable = 1
+						```
+						<aside class="notes" data-markdown>
+							Следует отметить, что IP адрес может изменяться.
+							Стоит IP адрес передавать через переменные окружения.
+							Cистема становится несколько сложнее и для демонстрации эти возможности опущены.
+						</aside>
+					</textarea>
 				</section>
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li>Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>				
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li class="strike">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>				
 				<section>
 					<h3>Переключение между пользователями</h3>
 					<ul>
