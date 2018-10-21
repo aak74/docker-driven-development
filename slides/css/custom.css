@@ -26,8 +26,12 @@ section.mini pre {
   font-size: 50%;
 }
 
-section.size-xs pre {
+section.size-s pre {
   font-size: 40%;
+}
+
+section.size-xs pre {
+  font-size: 30%;
 }
 
 p {
@@ -63,4 +67,8 @@ ul {
 
 li.strike {
   text-decoration: line-through;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform: none;
 }
