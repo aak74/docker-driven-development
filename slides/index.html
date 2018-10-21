@@ -230,7 +230,7 @@
 						</aside>
 					</textarea>
 				</section>
-				<section data-markdown class="size-xs">
+				<section data-markdown class="size-s">
 					<textarea data-template>
 						#### Структура папок
 						```bash
@@ -298,12 +298,12 @@
 					<h3>Примеры</h3>
 					<ol>
 						<li>Установка БД</li>
-						<li>Тестирование с использованием БД</li>
 						<li>Запуск простого проекта на локальном компьютере</li>
-						<li>Переключение между состояниями БД</li>
-						<li>Переключение между настройками одного и того же ПО</li>
 						<li>Переключение между версиями ПО</li>
+						<li>Переключение между настройками одного и того же ПО</li>
 						<li>Переключение между пользователями</li>
+						<li>Тестирование с использованием БД</li>
+						<li>Переключение между состояниями БД</li>
 						<li>Тестирование с использованием mock сервиса</li>
 					</ol>
 				</section>
@@ -483,7 +483,7 @@
 						<li>Сложное развертывание проекта</li>
 						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
-				</section>				
+				</section>
 				<section data-transition="none">
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
@@ -492,7 +492,98 @@
 						<li>Сложное развертывание проекта</li>
 						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
+				</section>
+				<section data-markdown class="mini">
+					<textarea data-template>
+						### Сложное развертывание проекта
+					</textarea>
+				</section>
+				
+				<section data-markdown class="size-xs">
+					<textarea data-template>
+						### Сложное развертывание проекта
+
+						#### docker-compose
+						```yaml
+						version: '2'
+
+						services:
+							mysql:
+								image: mysql:8
+								container_name: db
+								ports:
+									- 3306:3306
+								environment:
+									MYSQL_DATABASE: db
+									MYSQL_USER: my_user
+									MYSQL_PASSWORD: 123
+									MYSQL_ROOT_PASSWORD: 123
+								volumes:
+									- ./data/mysql:/var/lib/mysql
+									- ./data/backup/mysql:/bakup
+								restart: always
+							
+							rabbitmq:
+								image: rabbitmq:3.7
+								volumes:
+									- ./data/rabbitmq:/var/lib/rabbitmq
+								restart: always
+						
+							redis:
+								image: redis
+								command: ["redis-server", "--appendonly", "yes"]
+						```
+						<aside class="notes" data-markdown>
+							При стандартном подходе к разворачиванию ПО сложность растет в геометрической прогрессии от числа элементов.
+
+							При использовании докера сложность растет линейно.
+						</aside>
+					</textarea>
 				</section>				
+				<section data-markdown class="mini">
+					<textarea data-template>
+						### Сложное развертывание проекта
+						#### Makefile
+						```
+						#!/usr/bin/make
+						
+						.PHONY : help init backup restore
+						
+						.DEFAULT_GOAL := help
+						
+						init: download restore
+						
+						download:
+							@echo "start downloading database"
+							scp user@example.com:/path/to/backup/db.sql ./backup/mysql/db.sql
+
+						restore:
+							@echo "start restoring database"
+							docker exec -it db sh -c "mysql -u root -p123 db < /backup/db.sql"
+						```
+						<aside class="notes" data-markdown>
+							Еще больше упростить можно с помощью утилиты make
+						</aside>
+					</textarea>
+				</section>		
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li class="strike">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>						
+				<section data-transition="none">
+					<h3>Недостатки стандартного подхода к разработке</h3>
+					<ol>
+						<li class="strike">Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li class="strike">Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li class="strike">Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
+				</section>
 				<section>
 					<h3>Переключение между пользователями</h3>
 					<ul>
