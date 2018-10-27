@@ -73,6 +73,10 @@ li.strike {
   text-transform: none;
 }
 
-section.about p {
+section.about li {
   font-size: 80%;
+}
+
+p.me {
+  font-size: 120%
 }
