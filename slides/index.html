@@ -134,8 +134,7 @@
 					</aside>
 				</section>
 				<section>
-					<h2>Docker</h2>
-					<h3 class="fragment bright">решает</h3>
+					<h2>Docker <span class="bright">решает</span></h2>
 					<p class="fragment center">все эти проблемы</p>
 					<p class="fragment center">и даже больше</p>
 				</section>
@@ -143,7 +142,7 @@
 					<h2>Введение</h2>
 				</section>
 				<section data-transition="none">
-					<h3>Образ и контейнер</h3>
+					<h3>Введение</h3>
 					<ul>
 						<li class="fragment">Образ и контейнер</li>
 						<li class="fragment">
@@ -308,6 +307,9 @@
 						COPY ./rootfs /
 						```
 					</textarea>
+				</section>
+				<section>
+					<h2>Решение проблем</h2>
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
@@ -655,6 +657,79 @@
 					<h2>Еще примеры</h2>
 				</section>				
 				<section>
+					<h2>Тестирование с использованием БД</h2>
+					<ol>
+						<li class="fragment">Ручное тестирование скриптов</li>
+						<li class="fragment">Ручное тестирование функционала</li>
+						<li class="fragment">
+							<span>Unit тестирование</span>
+							<ul>
+								<li class="fragment bright">Лучше не надо</li>
+								<li class="fragment">Но если очень хочется...</li>
+							</ul>
+						</li>
+					</ol>					
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Стандартный подход к тестированию с использованием БД
+						1. Восстановление БД из бэкапа.
+						1. Выполнить тесты.
+						1. Удалить или очистить БД.
+						<aside class="notes">
+							<p>Если БД достаточно большая, то и восстанавливаться она будет долго.</p>
+							<p>Этот процесс нужно выполнять при каждом тестировании.</p>
+						</aside>
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Использование docker для тестирования с использованием БД
+						1. Создать __один раз__ образ содержащий БД.
+						1. Запускаем контейнер.
+						1. Запускаем тесты.
+						1. Останавливаем контейнер.						
+						<aside class="notes">
+							<p>Настойчиво обращаю внимание на то, что образ нужно подготовить один раз.</p>
+							<p>В идеале такой образ хранится в docker registry и в вашем проекте будет автоматически использоваться нужная версия БД для тестирования</p>
+						</aside>
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Использование docker для тестирования с использованием БД
+
+						##### Dockerfile
+
+						```yaml
+						FROM mysql:8
+
+						COPY ./db.sql /backup/
+
+						RUN mysql -u root -p db < /backup/db.sql \
+							&& rm /backup/db.sql
+						```
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						#### Использование docker для тестирования с использованием БД
+
+						##### build
+
+						```bash
+						docker build \
+							--rm -f ./Dockerfile \
+							-t test/db:0.1 .
+						```
+
+						##### Dockerfile
+						```yaml
+						FROM test/db:0.1
+						```
+					</textarea>
+				</section>
+				<section>
 					<h3>Переключение между пользователями</h3>
 					<ul>
 						<li class="fragment">Сложная логика работы с пользователями.</li>
@@ -695,95 +770,29 @@
 					</textarea>
 				</section>
 				<section>
-					<h2>Тестирование с использованием БД</h2>
-					<ol>
-						<li class="fragment">Ручное тестирование скриптов</li>
-						<li class="fragment">Ручное тестирование функционала</li>
-						<li class="fragment">
-							<span>Unit тестирование</span>
-							<ul>
-								<li class="fragment bright">Лучше не надо</li>
-								<li class="fragment">Но если очень хочется...</li>
-							</ul>
-						</li>
-					</ol>					
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						#### Стандартный подход к тестированию с использованием БД
-						1. Восстановление БД из бэкапа.
-						1. Выполнить тесты.
-						1. Удалить или очистить БД.
-						<aside class="notes">
-							<p>Если БД достаточно большая, то и восстанавливаться она будет долго.</p>
-							<p>Этот процесс нужно выполнять при каждом тестировании.</p>
-						</aside>
-					</textarea>
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						#### Использование docker для тестирования с использованием БД
-						1. Создать __один раз__ образ содержащий БД.
-						1. Запускаем контейнер.
-						1. Запускаем тесты.
-						1. Останавливаем контейнер.						
-						<aside class="notes">
-							<p>Настойчиво обращаю внимание на то, что образ нужно подготовить один раз.</p>
-							<p>В идеале такой образ хранится в docker registry и в вашем проекте будет автоматически использоваться нужная версия БД для тестирования</p>
-						</aside>
-					</textarea>
-				</section>
-				<section data-markdown class="size-s">
-					<textarea data-template>
-						### Переключение между состояниями БД
-						#### docker-compose.yml
-						```yaml
-						version: '2'
-				
-						services:
-							db1:
-								image: mysql:8
-								ports:
-									- 3036:3036
-								volumes:
-									- ./data/mysql1:/var/lib/mysq1
-							db2:
-								image: mysql:8
-								ports:
-									- 3037:3036
-								volumes:
-									- ./data/mysql1:/var/lib/mysq1
-							db3:
-								image: mysql:8
-								ports:
-									- 3038:3036
-								volumes:
-									- ./data/mysql1:/var/lib/mysq1
-						```
-						<aside class="notes">
-							Достаточно размножить сервис с БД и раскидать по различным портам и вы получаете нужное количество состояний БД
-						</aside>
-					</textarea>
-				</section>
-				<section>
-					<h3>Тестирование с использованием mock-сервиса</h3>
-					<aside class="notes">
-							<p>
-								Очень часто backend отстает от frоntend или мобильной разработки. 
-								Для временной заглушки удобно использовать docker+NodeJS. 
-								В дальнейшем подомную заглушку можно использовать для интеграционных тестов.
-							</p>
-						</aside>
-				</section>
-				<section>
 					<h2>Дополнительные вопросы</h2>
 				</section>
 				<section data-markdown class="size-s">
 					<textarea data-template>
 						### Пользователь в Dockerfile
+
+						##### Dockerfile
+						```yaml
+						FROM php:7.2-apache
+
+						RUN usermod -u 1000 www-data
+						```
+
+						```yaml
+						FROM php:7.2-cli
+
+						USER 1000
+						```
 						<aside class="notes">
 							<p>Если специальным образом не указать пользователя, под которым будут работать процессы в контейнере, то все процессы будут работать из под рута. Это неприемлемо с точки зрения безопасности.</p>
 							<p>В процессе разработки можно упростить себе жизнь не указывая пользователя, но на проде это совершенно недопустимо. Но даже в процессе разработки я не рекомендую малодушничать. Всегда указывайте пользователя, под которым будут работать процессы в контейнере.</p>
+							<p>Замена user id для процесса, запущенного под конкретным пользователем</p>
+							<p>Замена user id для запускаемых процессов</p>
 						</aside>
 					</textarea>
 				</section>
@@ -830,27 +839,37 @@
 						</aside>
 					</textarea>
 				</section>
-				<section data-markdown class="size-s">
-					<textarea data-template>
-						### Документирование (Инфраструктура как код)
-						<aside class="notes">
-							<h3>Dockerfile, docker-compose.yml, Makefile</h3>
-							<p>Лучшая документация та, которая лежит рядом с кодом.</p>
-							<p>
-								Добавление в проект `Dockerfile` и `docker-compose.yml` описывают серверное окружение, в котором проект должен работать. Кроме быстрого развертывания это приносит дополнительную пользу. А именно документирование проекта. Информация о необходимом окружении будет весьма полезна даже если docker в проде не будет использоваться.
-							</p>
-						</aside>
-					</textarea>
+				<section class="size-s">
+					<h3>Документирование (Инфраструктура как код)</h3>
+					<ul>
+						<li class="fragment">Dockerfile</li>
+						<li class="fragment">docker-compose.yml</li>
+						<li class="fragment">Makefile</li>
+					</ul>
+					<p class="fragment">Лучшая документация лежит рядом с кодом.</p>
+					<aside class="notes">
+						<h3>Dockerfile, docker-compose.yml, Makefile</h3>
+						<p>Лучшая документация та, которая лежит рядом с кодом.</p>
+						<p>
+							Добавление в проект `Dockerfile` и `docker-compose.yml` описывают серверное окружение, в котором проект должен работать. Кроме быстрого развертывания это приносит дополнительную пользу. А именно документирование проекта. Информация о необходимом окружении будет весьма полезна даже если docker в проде не будет использоваться.
+						</p>
+					</aside>
 				</section>
-				<section data-markdown class="size-s">
-					<textarea data-template>
-						### Использование Docker в Windows и MacOS
-						<aside class="notes">
-							<h3>Linux лучшая система для разработчика.</h3>
-							<p>Но если вам не повезло и вам приходится жить с Windows или MacOS, то с docker вы тоже сможете работать. Разве что есть некоторые особенности.</p>
-							<p>Я вообще не специалист по этим системам и поэтому вам ничего про такие особенности не расскажу :)</p>
-						</aside>
-					</textarea>
+				<section>
+					<h3>Использование Docker в Windows и MacOS</h3>
+					<ul>
+						<li class="fragment">Linux лучшая система для разработчика.</li>
+						<li class="fragment">В других системах есть особенности.</li>
+					</ul>
+					<div class="fragment">
+						<span>Но я про них ничего не знаю</span>
+						<img data-src="/images/i-dont-know.jpg">
+					</div>
+					<aside class="notes">
+						<h3>Linux лучшая система для разработчика.</h3>
+						<p>Но если вам не повезло и вам приходится жить с Windows или MacOS, то с docker вы тоже сможете работать. Разве что есть некоторые особенности.</p>
+						<p>Я вообще не специалист по этим системам и поэтому вам ничего про такие особенности не расскажу :)</p>
+					</aside>
 				</section>
 				<section data-markdown class="size-s">
 					<textarea data-template>
@@ -876,10 +895,10 @@
 				</section>
 				<section>
 					<h3>Выводы</h3>
+					<h4 class="fragment">Изучайте docker</h4>
 					<ul>
 						<li class="fragment">Docker - просто начать</li>
 						<li class="fragment">Docker - большие возможности</li>
-						<li class="fragment">Изучайте docker</li>
 					</ul>
 				</section>
 				<section>

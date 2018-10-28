@@ -48,6 +48,7 @@ ul {
   margin-right: auto; */
   display: table;
   text-align: left;
+  width: 100%;
 }
 .slide-background.present div {
   background-position: right bottom;
