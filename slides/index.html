@@ -491,6 +491,34 @@
 						</aside>
 					</textarea>
 				</section>
+				<section data-markdown>
+					<textarea data-template>
+						### Компиляция кода конкретной версией компилятора
+
+						#### docker-compose.yml
+						```yaml
+						version: '3'
+						services:
+							build:
+								image: golang:1.11-alpine
+								volumes:
+									- ./src:/go
+								working_dir: /go						
+						```
+
+						#### Компиляция
+						```bash
+						docker-compose run build go build -o main
+						```
+						<aside class="notes" data-markdown>
+							Изменить настройки.
+
+							Следует отметить, что IP адрес может изменяться.
+							Стоит IP адрес передавать через переменные окружения.
+							Cистема становится несколько сложнее и для демонстрации эти возможности опущены.
+						</aside>
+					</textarea>
+				</section>
 				<section data-transition="none">
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
