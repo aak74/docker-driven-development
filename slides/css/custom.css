@@ -97,3 +97,8 @@ section.slogan {
   word-wrap: break-word;
   font-size: 2.5em;
 }
+
+section.thanks,
+section.thanks p {
+  text-align: left;
+}
