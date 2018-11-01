@@ -81,13 +81,8 @@
 						## Версии ПО отличаются на проде и на компьютере разработчика
 						Средний разработчик часто не задумывается о необходимости совпадения версий ПО на проде и на своем компьютере. Допускаю, что он и не должен об этом задумываться. Это может быть проблемой его старших коллег. Однако для старших коллег соблюдение версий ПО приводит к внушительному вороху проблем.
 
-						Почему это важно?
 						Почему это происходит?
 
-						## Нет нужной версии ПО под вашу OS
-						Случается, что ПО недоступно для установки на конкретно вашу OS. 
-						Придется установить виртуалку с нужной OS, а ПО устанавливать в виртуалку. Однако это не снимает проблему со сложностью установки.
-						
 						## Сложность установки ПО
 						Уверен, что каждый из нас сталкивался со сложностями в установке ПО. Этого очень сложно избежать, потому что:
 						1. Само ПО достаточно сложное.
@@ -99,6 +94,9 @@
 						1. Придется потратить много времени на установку.
 						1. Придется пригласить админа, который в состоянии помочь в установке конкретного ПО.
 						1. Установка будет невозможна.
+						## Нет нужной версии ПО под вашу OS
+						Случается, что ПО недоступно для установки на конкретно вашу OS. 
+						Придется установить виртуалку с нужной OS, а ПО устанавливать в виртуалку. Однако это не снимает проблему со сложностью установки.
 						
 						## Очень сложно исполнять один и тот же код с разными версиями ПО или с разными настройками
 						Зачем это вообще может понадобиться?
@@ -135,8 +133,10 @@
 				</section>
 				<section>
 					<h2>Docker <span class="bright">решает</span></h2>
-					<p class="fragment center">все эти проблемы</p>
-					<p class="fragment center">и даже больше</p>
+					<div class="fragment center">
+						<p>все эти проблемы</p>
+						<p>и даже больше</p>
+					</div>
 				</section>
 				<section class="intro" data-background="/images/docker.png" data-background-size="800px" data-background-opacity="0.5">
 					<h2>Введение</h2>
@@ -180,9 +180,6 @@
 						FROM mongo:3-stretch
 
 						COPY ./mongo.conf /usr/local/etc/mongo/mongo.conf
-						EXPOSE 27017
-						
-						CMD ["mongod"]						
 						```
 						<aside class="notes mini" data-markdown>
 							- Начальный образ
@@ -310,6 +307,12 @@
 				</section>
 				<section>
 					<h2>Решение проблем</h2>
+					<ol>
+						<li>Версии ПО отличаются на проде и на компьютере разработчика</li>
+						<li>Сложно исполнять один и тот же код с разными версиями ПО</li>
+						<li>Сложное развертывание проекта</li>
+						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
+					</ol>
 				</section>
 				<section data-markdown class="mini">
 					<textarea data-template>
@@ -499,7 +502,7 @@
 						```yaml
 						version: '3'
 						services:
-							build:
+							compile:
 								image: golang:1.11-alpine
 								volumes:
 									- ./src:/go
@@ -508,14 +511,9 @@
 
 						#### Компиляция
 						```bash
-						docker-compose run build go build -o main
+						docker-compose run --rm compile go build -o main
 						```
 						<aside class="notes" data-markdown>
-							Изменить настройки.
-
-							Следует отметить, что IP адрес может изменяться.
-							Стоит IP адрес передавать через переменные окружения.
-							Cистема становится несколько сложнее и для демонстрации эти возможности опущены.
 						</aside>
 					</textarea>
 				</section>
@@ -537,10 +535,15 @@
 						<li>Устанавливаемое ПО засоряет компьютер разработчика</li>
 					</ol>
 				</section>
-				<section data-markdown class="mini">
-					<textarea data-template>
-						### Сложное развертывание проекта
-					</textarea>
+				<section>
+					<h3>Сложное развертывание проекта</h3>
+					<ul>
+						<li class="fragment">Установить MySQL версии 5.7.23</li>
+						<li class="fragment">Установить RabbitMQ 3.7.7</li>
+						<li class="fragment">Установить Redis 4.0.8</li>
+						<li class="fragment">Сделать дамп БД на сервере ...</li>
+						<li class="fragment">Восстановить БД из полученного дампа на сервере ...</li>
+					</ul>
 				</section>
 				
 				<section data-markdown class="size-xs">
@@ -553,7 +556,7 @@
 
 						services:
 							mysql:
-								image: mysql:8
+								image: mysql:5.7.23
 								container_name: db
 								ports:
 									- 3306:3306
@@ -568,7 +571,7 @@
 								restart: always
 							
 							rabbitmq:
-								image: rabbitmq:3.7
+								image: rabbitmq:3.7.7
 								ports:
 									- 5672:5672
 								volumes:
@@ -576,7 +579,7 @@
 								restart: always
 						
 							redis:
-								image: redis
+								image: redis:4.0.8
 								command: ["redis-server", "--appendonly", "yes"]
 						```
 						<aside class="notes" data-markdown>
@@ -591,12 +594,8 @@
 						### Сложное развертывание проекта
 						#### Makefile
 						```
-						#!/usr/bin/make
-						
-						.PHONY : help init backup restore
-						
-						.DEFAULT_GOAL := help
-						
+						...
+
 						init: download restore
 						
 						download:
@@ -820,7 +819,7 @@
 							<p>Если специальным образом не указать пользователя, под которым будут работать процессы в контейнере, то все процессы будут работать из под рута. Это неприемлемо с точки зрения безопасности.</p>
 							<p>В процессе разработки можно упростить себе жизнь не указывая пользователя, но на проде это совершенно недопустимо. Но даже в процессе разработки я не рекомендую малодушничать. Всегда указывайте пользователя, под которым будут работать процессы в контейнере.</p>
 							<p>Замена user id для процесса, запущенного под конкретным пользователем</p>
-							<p>Замена user id для запускаемых процессов</p>
+							<p>Замена user id текущего пользователя</p>
 						</aside>
 					</textarea>
 				</section>
@@ -863,7 +862,8 @@
 						ROOT_PASSWORD=123
 						```
 						<aside class="notes">
-							рассказать про .env и environment в docker-compose.yml
+							<p>рассказать про .env и environment в docker-compose.yml</p>
+							<p></p>пересборка образа обязательна.</p>
 						</aside>
 					</textarea>
 				</section>
@@ -897,6 +897,10 @@
 						<h3>Linux лучшая система для разработчика.</h3>
 						<p>Но если вам не повезло и вам приходится жить с Windows или MacOS, то с docker вы тоже сможете работать. Разве что есть некоторые особенности.</p>
 						<p>Я вообще не специалист по этим системам и поэтому вам ничего про такие особенности не расскажу :)</p>
+						<p>
+							В реальности вам необходимо будет установить дополнительно к докеру виртуальную машину.<br />
+							Именно в этой виртуальной машине и будут запускаться контейнеры, а остальную магию сделает докер.
+						</p>
 					</aside>
 				</section>
 				<section data-markdown class="size-s">
@@ -927,10 +931,14 @@
 					<ul>
 						<li class="fragment">Docker - просто начать</li>
 						<li class="fragment">Docker - большие возможности</li>
+						<li class="fragment">
+							<span>Docker ведет к вашей прокачке</span><br />
+							<span class="fragment">и повышению зарплаты :)</span>
+						</li>
 					</ul>
 				</section>
-				<section>
-						<h1><span>Resume</span><span class="fragment"> driven</span><span class="fragment"> development</span> <span class="fragment bright"> completed!</span></h1>
+				<section class="slogan">
+						<div><p>Resume driven</p><p>development</p><p class="fragment bright">completed!</p></div>
 				</section>
 				<section class="thanks" data-background="/images/friends.png" data-background-size="600px">
 					<h3>Спасибо!</h3>
@@ -948,7 +956,7 @@
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+		<script src="js/reveal.js"></script>
 
 		<script>
 			// More info about config & dependencies:
