@@ -107,3 +107,15 @@ section.thanks p,
 section.about p {
   text-align: left;
 }
+
+.fll {
+  float: left;
+}
+
+.flr {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
