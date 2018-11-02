@@ -1128,8 +1128,8 @@
 						<li class="fragment">В других системах есть особенности.</li>
 					</ul>
 					<div class="fragment">
-						<span>Но я про них ничего не знаю</span>
-						<img data-src="/images/i-dont-know.jpg">
+						<p>Но я про них ничего не знаю</p>
+						<img data-src="/images/i-dont-know.jpg" class="dont-know">
 					</div>
 					<aside class="notes">
 						<h3>Linux лучшая система для разработчика.</h3>
@@ -1182,7 +1182,7 @@
 						<p class="fragment bright">completed!</p>
 					</div>
 				</section>
-				<section class="thanks" data-background="/images/friends.png" data-background-size="600px">
+				<section class="thanks">
 					<div>
 						<div class="fll">
 							<h3>Спасибо!</h3>
@@ -1214,6 +1214,9 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				width: 1280,
+				height: 720,
+				margin: 0.1,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
@@ -1222,7 +1225,7 @@
 					{ src: 'plugin/zoom-js/zoom.js', async: true },
 				]
 			});
-			Reveal.configure({ slideNumber: true });
+			// Reveal.configure({ slideNumber: true });
 		</script>
 	</body>
 </html>

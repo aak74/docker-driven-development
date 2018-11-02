@@ -162,3 +162,125 @@ ul, ol, div, p {
 	position: absolute;
 	font-size: 14px;
 }
+
+.reveal section img {
+  border: none;
+}
+
+.reveal li.mini {
+  font-size: 80%;
+}
+
+.reveal pre code {
+  max-height: 480px;
+}
+
+.speaker-controls-notes {
+  font-size: 80%;
+}
+
+section {
+  top: 20px !important;
+}
+
+/* section.mini {
+  font-size: 80%;
+} */
+
+section.mini pre {
+  font-size: 50%;
+}
+
+section.size-l pre {
+  font-size: 140%;
+}
+
+section.size-s pre {
+  font-size: 40%;
+}
+
+section.size-xs pre {
+  font-size: 30%;
+}
+
+p {
+  text-align: left;
+}
+
+div.center p,
+p.center {
+  text-align: center;
+}
+
+ol,
+ul {
+  /* margin-left: auto;
+  margin-right: auto; */
+  display: table;
+  text-align: left;
+  width: 100%;
+}
+.slide-background.present div {
+  background-position: right bottom;
+}
+
+.slide-background.present.title div {
+  background-position: left bottom;
+}
+
+/* .slide-background.thanks.present div {
+  background-position: right bottom;
+} */
+
+.bright {
+  color: #ff2c2d !important;
+}
+
+li.strike {
+  text-decoration: line-through;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform: none;
+}
+
+section.about li {
+  font-size: 80%;
+}
+
+p.me {
+  font-size: 120%
+}
+
+section.slogan {
+  margin: 0 0 20px 0;
+  color: #586e75;
+  font-family: "League Gothic",
+  Impact,
+  sans-serif;
+  font-weight: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-shadow: none;
+  word-wrap: break-word;
+  font-size: 2.5em;
+}
+
+section.thanks,
+section.thanks p,
+section.about p {
+  text-align: left;
+}
+
+.fll {
+  float: left;
+}
+
+.flr {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
