@@ -49,9 +49,8 @@
 
 						Стараюсь создать условия для эффективной работы разработчиков.
 
-						При этом остаюсь играющим тренером. Иными словами у меня одновременно кровоточат обе раны.
-
-						И рана разработчика и рана техдира.
+						При этом остаюсь играющим тренером. 
+						И как мне кажется вижу боль с двух сторон.
 
 						Давайте об этом и поговорим.
 					</aside>
@@ -60,24 +59,17 @@
 					<h3>Эволюция процесса разработки</h3>
 					<p class="center">на примере разработки сайтов на базе LAMP</p>
 					<ol>
-						<li class="fragment">Denwer, WAMP, XAMP</li>
-						<li class="fragment">Виртуалка + FTP (Samba)</li>
-						<li class="fragment">Linux как основная OS</li>
-						<li class="fragment">Код на локальной машине + lsync (realsync)</li>
-						<li class="fragment">Docker</li>
+						<li>Denwer, WAMP, XAMP</li>
+						<li>Виртуалка + FTP (Samba)</li>
+						<li>Linux как основная OS</li>
+						<li>Код на локальной машине + lsync (realsync)</li>
+						<li>Docker</li>
 					</ol>
 					<aside class="notes" data-markdown>
 						Вообще-то на месте этого слайда должен быть слайд с кровищей :)
 
 						- Кто использует в работе схожий стек технологий?
 						- А кто раньше использовал?
-					</aside>
-				</section>
-				<section>
-					<h3>Эволюция процесса разработки</h3>
-					<image data-src="/images/dev-matrix.png"></image>
-					<aside class="notes" data-markdown>
-						Я побывал в каждом из этих квадратов. Почти... :)
 					</aside>
 				</section>
 				<section>
@@ -273,11 +265,11 @@
 
 						services:
 							mysql:
-								image: mysql:8
+								image: mongo:3-stretch
 								ports:
-									- 3306:3306
+									- 27017:27017
 								volumes:
-									- ./data/mysql:/var/lib/mysql
+									- ./data/mongo:/db/data
 								restart: always
 						```
 
@@ -529,6 +521,7 @@
 						<li class="fragment">Установить RabbitMQ 3.7.7</li>
 						<li class="fragment">Установить Redis 4.0.8</li>
 						<li class="fragment">Сделать дамп БД на сервере ...</li>
+						<li class="fragment">Для MySQL установить настройку max_allowed_packet=128M ...</li>
 						<li class="fragment">Восстановить БД из полученного дампа на сервере ...</li>
 					</ul>
 						<aside class="notes" data-markdown>
@@ -645,10 +638,10 @@
 				<section>
 					<h3>Версии ПО или разные настройки</h3>
 					<ul>
-						<li class="fragment">Тестирование проекта в различных окружениях.</li>
-						<li class="fragment">Тестирование продуктов собственной разработки в различных окружениях.</li>
-						<li class="fragment">Подключение дебаггера.</li>
-						<li class="fragment">Компиляция проекта разными версиями компилятора.</li>
+						<li>Тестирование проекта в различных окружениях.</li>
+						<li>Тестирование продуктов собственной разработки в различных окружениях.</li>
+						<li>Компиляция проекта разными версиями компилятора.</li>
+						<li>Подключение дебаггера.</li>
 					</ul>
 				</section>
 				<section data-markdown>
@@ -708,6 +701,48 @@
 						</aside>
 					</textarea>
 				</section>
+
+				<section data-markdown class="size-s">
+					<textarea data-template>
+						### Компиляция кода конкретной версией компилятора
+
+						#### docker-compose.yml
+						```yaml
+						version: '3'
+						services:
+							compile_11:
+								image: golang:1.11-alpine
+								volumes:
+									- ./src:/go
+								working_dir: /go						
+
+							compile_9:
+								image: golang:1.9-alpine
+								volumes:
+									- ./src:/go
+								working_dir: /go						
+						```
+
+						#### Компиляция
+						```bash
+						docker-compose run --rm compile_11 go build -o main
+						```
+						<aside class="notes" data-markdown>
+							Следующая ситуация.
+
+							Вам необходимо скомпилировать свой проект разными версиями компилятора.
+							При этом у вас установлен golang версии 1.10.
+
+							Создаем docker-compose.yml с указанными сервисами.
+							Компилируем с указанием нужного сервиса.
+
+							Это все.
+
+							GOPATH и вендоринг опущен за несущественностью. Реализовать это внутри контейнера очень просто.
+						</aside>
+					</textarea>
+				</section>
+				
 				<section data-markdown>
 					<textarea data-template>
 						### Подключение дебаггера 
@@ -772,46 +807,7 @@
 					</textarea>
 				</section>
 
-				<section data-markdown class="size-s">
-					<textarea data-template>
-						### Компиляция кода конкретной версией компилятора
 
-						#### docker-compose.yml
-						```yaml
-						version: '3'
-						services:
-							compile_11:
-								image: golang:1.11-alpine
-								volumes:
-									- ./src:/go
-								working_dir: /go						
-
-							compile_9:
-								image: golang:1.9-alpine
-								volumes:
-									- ./src:/go
-								working_dir: /go						
-						```
-
-						#### Компиляция
-						```bash
-						docker-compose run --rm compile_11 go build -o main
-						```
-						<aside class="notes" data-markdown>
-							Следующая ситуация.
-
-							Вам необходимо скомпилировать свой проект разными версиями компилятора.
-							При этом у вас установлен golang версии 1.10.
-
-							Создаем docker-compose.yml с указанными сервисами.
-							Компилируем с указанием нужного сервиса.
-
-							Это все.
-
-							GOPATH и вендоринг опущен за несущественностью. Реализовать это внутри контейнера очень просто.
-						</aside>
-					</textarea>
-				</section>
 				<section data-transition="none">
 					<h3>Недостатки стандартного подхода к разработке</h3>
 					<ol>
