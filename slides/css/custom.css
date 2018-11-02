@@ -26,6 +26,10 @@ section.mini pre {
   font-size: 50%;
 }
 
+section.size-l pre {
+  font-size: 140%;
+}
+
 section.size-s pre {
   font-size: 40%;
 }
@@ -99,6 +103,7 @@ section.slogan {
 }
 
 section.thanks,
-section.thanks p {
+section.thanks p,
+section.about p {
   text-align: left;
 }
